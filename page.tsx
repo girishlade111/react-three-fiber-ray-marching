@@ -1,9 +1,9 @@
-import Scene from "./scene"
+import SceneWrapper from "./scene-wrapper"
 
 export default function Home() {
   return (
     <main>
-      <Scene />
+      <SceneWrapper />
     </main>
   )
 }

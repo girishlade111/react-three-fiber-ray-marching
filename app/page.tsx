@@ -1,7 +1,9 @@
-"use client"
+import SceneWrapper from "../scene-wrapper"
 
-import { DistortSphere } from "../distort-sphere"
-
-export default function SyntheticV0PageForDeployment() {
-  return <DistortSphere />
+export default function Home() {
+  return (
+    <main>
+      <SceneWrapper />
+    </main>
+  )
 }

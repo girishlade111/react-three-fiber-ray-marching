@@ -1,30 +1,75 @@
 # React Three Fiber Ray Marching
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+An interactive 3D scene built with **React Three Fiber** that renders a ray-marched shader scene in real time. A fullscreen GLSL ray marcher (SDF spheres and boxes, 100 march steps) is projected onto a plane inside a React Three Fiber canvas, dressed with post-processing effects and a live color-picker UI to change the scene background on the fly.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/gileb64375-5584s-projects/v0-react-three-fiber-ray-marching)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/Csg89Wa64vT)
+## Features
 
-## Overview
+- **Real-time ray marching shader** — custom GLSL fragment shader with signed distance functions (`sdSphere`, `sdBox`), soft shadows and up to 100 march steps
+- **Interactive 3D canvas** — OrbitControls to rotate/zoom/pan around the ray-marched plane
+- **Post-processing stack** — Bloom, Chromatic Aberration and Vignette via `@react-three/postprocessing`
+- **Live color picker** — change the background color of the scene with a floating palette UI (react-colorful)
+- **Environment lighting** — drei `Environment` preset with ambient and point lights
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) 15 (App Router, static export)
+- [React](https://react.dev/) 19 + TypeScript
+- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) / [drei](https://github.com/pmndrs/drei) / `@react-three/postprocessing`
+- [three.js](https://threejs.org/)
+- Tailwind CSS 3.4 + shadcn/ui components
+- lucide-react icons, react-colorful
+
+## Quick Start
+
+```bash
+# install dependencies
+pnpm install   # or: npm install --legacy-peer-deps
+
+# run the dev server
+pnpm dev       # open http://localhost:3000
+
+# production static build (outputs to ./out)
+pnpm build
+```
+
+### Preview a production build locally
+
+```bash
+npx serve out
+```
+
+## Project Structure
+
+```
+app/
+  page.tsx        # Home page -> renders <Scene />
+  layout.tsx      # Root layout, fonts, analytics
+  globals.css     # Tailwind + global styles
+ray-marching-scene.tsx  # GLSL ray-marching shader material + plane
+scene.tsx         # Canvas, lights, post-processing, UI wiring
+ui.tsx            # Floating color-picker overlay
+components/       # shadcn/ui components
+public/           # Static assets
+```
 
 ## Deployment
 
-Your project is live at:
+The app is fully static (no API routes, no server components with actions) and deploys as a static export:
 
-**[https://vercel.com/gileb64375-5584s-projects/v0-react-three-fiber-ray-marching](https://vercel.com/gileb64375-5584s-projects/v0-react-three-fiber-ray-marching)**
+- **GitHub Pages:** `next build` emits `out/`, published from the `gh-pages` branch.
+  The build uses `basePath: '/react-three-fiber-ray-marching'` for the Pages subpath.
+  If you deploy to a domain root (Vercel / Netlify / Cloudflare Pages), remove the
+  `basePath` line from `next.config.mjs` and rebuild.
+- **Vercel / Netlify:** connect the repo; the default build (`next build`) works
+  without `output: 'export'` if you prefer SSR-friendly deploys.
 
-## Build your app
+No environment variables are required.
 
-Continue building your app on:
+## Notes
 
-**[https://v0.app/chat/projects/Csg89Wa64vT](https://v0.app/chat/projects/Csg89Wa64vT)**
+- This project was originally scaffolded with [v0.app](https://v0.app); the original v0-synced README was rewritten for this public release.
+- Next.js pinned to 15.2.8 (patched for CVE-2025-55182 React2Shell).
 
-## How It Works
+---
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+Built by Girish Lade — https://ladestack.in
